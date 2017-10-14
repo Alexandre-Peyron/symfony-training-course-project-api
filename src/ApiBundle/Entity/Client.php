@@ -91,6 +91,18 @@ class Client
      */
     private $urlTwitter;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\Invoice", mappedBy="client")
+     */
+    private $invoices;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -341,5 +353,38 @@ class Client
     {
         return $this->urlTwitter;
     }
-}
 
+    /**
+     * Add invoice
+     *
+     * @param \ApiBundle\Entity\Invoice $invoice
+     *
+     * @return Client
+     */
+    public function addInvoice(\ApiBundle\Entity\Invoice $invoice)
+    {
+        $this->invoices[] = $invoice;
+
+        return $this;
+    }
+
+    /**
+     * Remove invoice
+     *
+     * @param \ApiBundle\Entity\Invoice $invoice
+     */
+    public function removeInvoice(\ApiBundle\Entity\Invoice $invoice)
+    {
+        $this->invoices->removeElement($invoice);
+    }
+
+    /**
+     * Get invoices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoices()
+    {
+        return $this->invoices;
+    }
+}

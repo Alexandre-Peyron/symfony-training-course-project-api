@@ -49,6 +49,24 @@ class Invoice
      */
     private $object;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ApiBundle\Entity\InvoiceLine", mappedBy="invoice", cascade={"persist", "remove"})
+     */
+    private $lines;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\Client", inversedBy="invoices")
+     * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     */
+    private $client;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->lines = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -155,5 +173,62 @@ class Invoice
     {
         return $this->object;
     }
-}
 
+    /**
+     * Add line
+     *
+     * @param \ApiBundle\Entity\InvoiceLine $line
+     *
+     * @return Invoice
+     */
+    public function addLine(\ApiBundle\Entity\InvoiceLine $line)
+    {
+        $this->lines[] = $line;
+
+        return $this;
+    }
+
+    /**
+     * Remove line
+     *
+     * @param \ApiBundle\Entity\InvoiceLine $line
+     */
+    public function removeLine(\ApiBundle\Entity\InvoiceLine $line)
+    {
+        $this->lines->removeElement($line);
+    }
+
+    /**
+     * Get lines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLines()
+    {
+        return $this->lines;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \ApiBundle\Entity\Client $client
+     *
+     * @return Invoice
+     */
+    public function setClient(\ApiBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \ApiBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+}

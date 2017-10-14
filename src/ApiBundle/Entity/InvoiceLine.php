@@ -59,6 +59,11 @@ class InvoiceLine
      */
     private $sign;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\Invoice", inversedBy="lines", cascade={"persist"})
+     * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", nullable=false)
+     */
+    private $invoice;
 
     /**
      * Get id
@@ -168,5 +173,28 @@ class InvoiceLine
     {
         return $this->sign;
     }
-}
 
+    /**
+     * Set invoice
+     *
+     * @param \ApiBundle\Entity\Invoice $invoice
+     *
+     * @return InvoiceLine
+     */
+    public function setInvoice(\ApiBundle\Entity\Invoice $invoice)
+    {
+        $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    /**
+     * Get invoice
+     *
+     * @return \ApiBundle\Entity\Invoice
+     */
+    public function getInvoice()
+    {
+        return $this->invoice;
+    }
+}
