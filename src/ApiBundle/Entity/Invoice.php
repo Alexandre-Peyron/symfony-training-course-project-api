@@ -103,6 +103,12 @@ class Invoice
     private $client;
 
     /**
+     * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\InvoiceStatus", inversedBy="invoices")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     */
+    private $status;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -440,5 +446,29 @@ class Invoice
     public function getAmountPaid()
     {
         return $this->amountPaid;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \ApiBundle\Entity\InvoiceStatus $status
+     *
+     * @return Invoice
+     */
+    public function setStatus(\ApiBundle\Entity\InvoiceStatus $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \ApiBundle\Entity\InvoiceStatus
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
