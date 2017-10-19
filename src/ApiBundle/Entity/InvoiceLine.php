@@ -34,9 +34,23 @@ class InvoiceLine
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="designation", type="string", length=255)
      */
-    private $description;
+    private $designation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="quantity", type="float", nullable=true)
+     */
+    private $quantity = 1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unit", type="string", length=20, nullable=true)
+     */
+    private $unit;
 
     /**
      * @var float
@@ -73,30 +87,6 @@ class InvoiceLine
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return InvoiceLine
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**
@@ -196,5 +186,77 @@ class InvoiceLine
     public function getInvoice()
     {
         return $this->invoice;
+    }
+
+    /**
+     * Set designation
+     *
+     * @param string $designation
+     *
+     * @return InvoiceLine
+     */
+    public function setDesignation($designation)
+    {
+        $this->designation = $designation;
+
+        return $this;
+    }
+
+    /**
+     * Get designation
+     *
+     * @return string
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param float $quantity
+     *
+     * @return InvoiceLine
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return float
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set unit
+     *
+     * @param string $unit
+     *
+     * @return InvoiceLine
+     */
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    /**
+     * Get unit
+     *
+     * @return string
+     */
+    public function getUnit()
+    {
+        return $this->unit;
     }
 }
