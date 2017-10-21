@@ -13,6 +13,36 @@ use Doctrine\ORM\Mapping as ORM;
 class InvoiceStatus
 {
     /**
+     * @const string
+     */
+    const STATE_DRAFT = "draft";
+
+    /**
+     * @const string
+     */
+    const STATE_SENT = "sent";
+
+    /**
+     * @const string
+     */
+    const STATE_ACCEPTED = "accepted";
+
+    /**
+     * @const string
+     */
+    const STATE_REFUSED = "refused";
+
+    /**
+     * @const string
+     */
+    const STATE_TO_PAY = "topay";
+
+    /**
+     * @const string
+     */
+    const STATE_PAID = "paid";
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -24,7 +54,7 @@ class InvoiceStatus
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50, unique=true)
+     * @ORM\Column(name="name", type="string", length=20, unique=true, columnDefinition="ENUM('draft', 'sent', 'accepted', 'refused', 'topay', 'paid')")
      */
     private $name;
 
@@ -36,16 +66,17 @@ class InvoiceStatus
     private $description;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=50, unique=true)
-     */
-    private $slug;
-
-    /**
      * @ORM\OneToMany(targetEntity="ApiBundle\Entity\Invoice", mappedBy="status")
      */
     private $invoices;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -66,6 +97,19 @@ class InvoiceStatus
      */
     public function setName($name)
     {
+        if (!in_array($name,
+            [
+                self::STATE_DRAFT,
+                self::STATE_SENT,
+                self::STATE_ACCEPTED,
+                self::STATE_REFUSED,
+                self::STATE_TO_PAY,
+                self::STATE_PAID
+            ])
+        ) {
+            throw new \InvalidArgumentException("Invalid invoice status");
+        }
+
         $this->name = $name;
 
         return $this;
@@ -103,37 +147,6 @@ class InvoiceStatus
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return InvoiceStatus
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->invoices = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
