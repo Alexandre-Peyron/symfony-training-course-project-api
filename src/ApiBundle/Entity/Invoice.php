@@ -151,30 +151,6 @@ class Invoice
     }
 
     /**
-     * Set isPaid
-     *
-     * @param boolean $isPaid
-     *
-     * @return Invoice
-     */
-    public function setIsPaid($isPaid)
-    {
-        $this->isPaid = $isPaid;
-
-        return $this;
-    }
-
-    /**
-     * Get isPaid
-     *
-     * @return bool
-     */
-    public function getIsPaid()
-    {
-        return $this->isPaid;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -220,64 +196,6 @@ class Invoice
     public function getObject()
     {
         return $this->object;
-    }
-
-    /**
-     * Add line
-     *
-     * @param \ApiBundle\Entity\InvoiceLine $line
-     *
-     * @return Invoice
-     */
-    public function addLine(\ApiBundle\Entity\InvoiceLine $line)
-    {
-        $this->lines[] = $line;
-
-        return $this;
-    }
-
-    /**
-     * Remove line
-     *
-     * @param \ApiBundle\Entity\InvoiceLine $line
-     */
-    public function removeLine(\ApiBundle\Entity\InvoiceLine $line)
-    {
-        $this->lines->removeElement($line);
-    }
-
-    /**
-     * Get lines
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLines()
-    {
-        return $this->lines;
-    }
-
-    /**
-     * Set client
-     *
-     * @param \ApiBundle\Entity\Client $client
-     *
-     * @return Invoice
-     */
-    public function setClient(\ApiBundle\Entity\Client $client = null)
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    /**
-     * Get client
-     *
-     * @return \ApiBundle\Entity\Client
-     */
-    public function getClient()
-    {
-        return $this->client;
     }
 
     /**
@@ -470,5 +388,63 @@ class Invoice
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Add line
+     *
+     * @param \ApiBundle\Entity\InvoiceLine $line
+     *
+     * @return Invoice
+     */
+    public function addLine(\ApiBundle\Entity\InvoiceLine $line)
+    {
+        $this->lines[] = $line;
+
+        return $this;
+    }
+
+    /**
+     * Remove line
+     *
+     * @param \ApiBundle\Entity\InvoiceLine $line
+     */
+    public function removeLine(\ApiBundle\Entity\InvoiceLine $line)
+    {
+        $this->lines->removeElement($line);
+    }
+
+    /**
+     * Get lines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLines()
+    {
+        return $this->lines;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \ApiBundle\Entity\Client $client
+     *
+     * @return Invoice
+     */
+    public function setClient(\ApiBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \ApiBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }
