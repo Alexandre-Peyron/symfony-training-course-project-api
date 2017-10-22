@@ -1,0 +1,9 @@
+ApiBundle\Entity\Invoice:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [invoice]
+        reference:
+            expose: true
+            groups: [invoicef]
