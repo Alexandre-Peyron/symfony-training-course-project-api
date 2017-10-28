@@ -1,0 +1,15 @@
+ApiBundle\Entity\InvoiceStatus:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [status, invoice]
+        name:
+            expose: true
+            groups: [status, invoice]
+        description:
+            expose: true
+            groups: [status, invoice]
+        invoices:
+            expose: true
+            groups: [status]

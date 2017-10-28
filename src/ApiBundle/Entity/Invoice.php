@@ -3,6 +3,7 @@
 namespace ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Invoice
@@ -32,6 +33,8 @@ class Invoice
      * @var \DateTime
      *
      * @ORM\Column(name="invoice_date", type="date")
+     *
+     * @Assert\Date()
      */
     private $invoiceDate;
 
@@ -39,6 +42,8 @@ class Invoice
      * @var \DateTime
      *
      * @ORM\Column(name="due_date", type="date", nullable=true)
+     *
+     * @Assert\Date()
      */
     private $dueDate;
 
@@ -46,6 +51,8 @@ class Invoice
      * @var string
      *
      * @ORM\Column(name="object", type="text")
+     *
+     * @Assert\NotBlank()
      */
     private $object;
 
@@ -99,12 +106,16 @@ class Invoice
     /**
      * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\Client", inversedBy="invoices")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id")
+     *
+     * @Assert\NotBlank()
      */
     private $client;
 
     /**
      * @ORM\ManyToOne(targetEntity="ApiBundle\Entity\InvoiceStatus", inversedBy="invoices")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     *
+     * @Assert\NotBlank()
      */
     private $status;
 

@@ -6,4 +6,40 @@ ApiBundle\Entity\Invoice:
             groups: [invoice]
         reference:
             expose: true
-            groups: [invoicef]
+            groups: [invoice]
+        invoiceDate:
+            expose: true
+            groups: [invoice]
+        dueDate:
+            expose: true
+            groups: [invoice]
+        object:
+            expose: true
+            groups: [invoice]
+        note:
+            expose: true
+            groups: [invoice]
+        terms:
+            expose: true
+            groups: [invoice]
+        footer:
+            expose: true
+            groups: [invoice]
+        amountPaid:
+            expose: true
+            groups: [invoice]
+        lines:
+            expose: true
+            groups: [invoice]
+        createdAt:
+            expose: true
+            groups: [invoice]
+        updatedAt:
+            expose: true
+            groups: [invoice]
+        client:
+            expose: true
+            groups: [invoice]
+        status:
+            expose: true
+            groups: [invoice]

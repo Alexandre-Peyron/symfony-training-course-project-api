@@ -1,0 +1,39 @@
+ApiBundle\Entity\Client:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [client, invoice]
+        name:
+            expose: true
+            groups: [client, invoice]
+        acronym:
+            expose: true
+            groups: [client, invoice]
+        address:
+            expose: true
+            groups: [client]
+        email:
+            expose: true
+            groups: [client, invoice]
+        contactFirstName:
+            expose: true
+            groups: [client]
+        contactLastName:
+            expose: true
+            groups: [client]
+        urlWebsite:
+            expose: true
+            groups: [client]
+        urlFacebook:
+            expose: true
+            groups: [client]
+        urlTwitter:
+            expose: true
+            groups: [client]
+        urlLinkedin:
+            expose: true
+            groups: [client]
+        invoices:
+            expose: true
+            groups: [client]
