@@ -10,4 +10,40 @@ namespace ApiBundle\Repository;
  */
 class InvoiceRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Count invoices with same reference base
+     *
+     * @param string $reference
+     *
+     * @return integer
+     */
+    public function countFindLikeByReference($reference)
+    {
+        $queryBuilder = $this->queryFindLikeByReference($reference);
+
+        return $queryBuilder
+            ->select('COUNT(i.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Query to select invoices with same reference base
+     *
+     * @param string $reference
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function queryFindLikeByReference($reference)
+    {
+        $queryBuilder = $this->createQueryBuilder('i');
+
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('i.reference', $queryBuilder->expr()->literal($reference . '%'))
+            ));
+
+        return $queryBuilder;
+    }
+
 }

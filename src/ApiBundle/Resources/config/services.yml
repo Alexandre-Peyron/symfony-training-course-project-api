@@ -1,4 +1,10 @@
 services:
+    api.invoice.event_listener:
+        class: ApiBundle\EventListener\InvoiceListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
 #    api.example:
 #        class: ApiBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
