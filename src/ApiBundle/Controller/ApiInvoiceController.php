@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -66,6 +67,56 @@ class ApiInvoiceController extends Controller
     }
 
     /**
+     * @Route("/invoices/{id}")
+     * @Method("PATCH")
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $invoice = $em->getRepository('ApiBundle:Invoice')->find($id);
+
+        if (!$invoice) {
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        }
+
+        $form = $this->createForm(InvoiceType::class, $invoice);
+
+        // second argument determines if form data should be merged with existing entity
+        // false for merge (PATCH)
+        // true to get only form data (PUT)
+        $form->submit($request->request->all(), false);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($invoice);
+            $em->flush();
+
+            return $this->createJsonResponse($invoice, ['invoice']);
+        } else {
+            return $this->createJsonResponse($form->getErrors());
+        }
+    }
+
+    /**
+     * @Route("/invoices/{id}")
+     * @Method("DELETE")
+     */
+    public function removePlaceAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $invoice = $em->getRepository('ApiBundle:Invoice')->find($id);
+
+        if ($invoice) {
+            $em->remove($invoice);
+            $em->flush();
+        }
+
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Convert Entity to Json
      *
      * @param $object
@@ -82,7 +133,7 @@ class ApiInvoiceController extends Controller
         $jsonObject = $serializer->serialize(
             $object,
             'json',
-            (!empty($groups))? SerializationContext::create()->setGroups($groups) : null
+            (!empty($groups)) ? SerializationContext::create()->setGroups($groups) : null
         );
 
         return new JsonResponse($jsonObject, $status, $headers, true);

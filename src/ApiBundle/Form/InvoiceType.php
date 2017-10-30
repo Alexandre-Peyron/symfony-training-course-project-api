@@ -21,21 +21,11 @@ class InvoiceType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
             ])
-            ->add('object', TextType::class, [
-                'required' => true
-            ])
-            ->add('note', TextType::class, [
-                'required' => false
-            ])
-            ->add('terms', TextType::class, [
-                'required' => false
-            ])
-            ->add('footer', TextType::class, [
-                'required' => false
-            ])
-            ->add('amountPaid', TextType::class, [
-                'required' => false
-            ])
+            ->add('object', TextType::class)
+            ->add('note', TextType::class)
+            ->add('terms', TextType::class)
+            ->add('footer', TextType::class)
+            ->add('amountPaid', TextType::class)
             ->add('client', EntityType::class, [
                 'class' => 'ApiBundle\Entity\Client',
                 'choice_label' => 'name',
