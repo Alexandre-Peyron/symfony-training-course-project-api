@@ -4,10 +4,8 @@ namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\Invoice;
 use ApiBundle\Form\InvoiceType;
-use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/api/v1")
  */
-class ApiInvoiceController extends Controller
+class ApiInvoiceController extends ApiBaseController
 {
     /**
      * @Route("/invoices")
@@ -31,16 +29,28 @@ class ApiInvoiceController extends Controller
 
         $invoices = $em->getRepository('ApiBundle:Invoice')->findAll();
 
-        return $this->createJsonResponse($invoices);
+        if (!$invoices) {
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        }
+
+        return $this->createJsonResponse($invoices, Response::HTTP_OK);
     }
 
     /**
      * @Route("/invoices/{id}")
      * @Method("GET")
      */
-    public function showAction(Invoice $invoice)
+    public function showAction($id)
     {
-        return $this->createJsonResponse($invoice);
+        $em = $this->getDoctrine()->getManager();
+
+        $invoice = $em->getRepository('ApiBundle:Invoice')->find($id);
+
+        if (!$invoice) {
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        }
+
+        return $this->createJsonResponse($invoice, Response::HTTP_OK, ['invoice']);
     }
 
     /**
@@ -60,7 +70,7 @@ class ApiInvoiceController extends Controller
             $em->persist($invoice);
             $em->flush();
 
-            return $this->createJsonResponse($invoice, ['invoice']);
+            return $this->createJsonResponse($invoice, Response::HTTP_CREATED, ['invoice']);
         } else {
             return $this->createJsonResponse($form->getErrors());
         }
@@ -92,7 +102,7 @@ class ApiInvoiceController extends Controller
             $em->persist($invoice);
             $em->flush();
 
-            return $this->createJsonResponse($invoice, ['invoice']);
+            return $this->createJsonResponse($invoice, Response::HTTP_OK, ['invoice']);
         } else {
             return $this->createJsonResponse($form->getErrors());
         }
@@ -114,28 +124,5 @@ class ApiInvoiceController extends Controller
         }
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
-    }
-
-    /**
-     * Convert Entity to Json
-     *
-     * @param $object
-     * @param array $groups
-     * @param int $status
-     * @param array $headers
-     *
-     * @return JsonResponse
-     */
-    private function createJsonResponse($object, $groups = [], $status = 200, $headers = [])
-    {
-        $serializer = $this->container->get('jms_serializer');
-
-        $jsonObject = $serializer->serialize(
-            $object,
-            'json',
-            (!empty($groups)) ? SerializationContext::create()->setGroups($groups) : null
-        );
-
-        return new JsonResponse($jsonObject, $status, $headers, true);
     }
 }
