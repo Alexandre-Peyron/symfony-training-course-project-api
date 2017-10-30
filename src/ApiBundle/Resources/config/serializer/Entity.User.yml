@@ -1,0 +1,21 @@
+ApiBundle\Entity\User:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: false
+        username:
+            expose: true
+            groups: [user]
+        firstname:
+            expose: true
+            groups: [user]
+        lastname:
+            expose: true
+            groups: [user]
+        email:
+            expose: true
+            groups: [user]
+        password:
+            expose: false
+        plainPassword:
+            expose: false
