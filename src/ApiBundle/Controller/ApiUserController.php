@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiUserController extends ApiBaseController
 {
     /**
-     * @route("/login")
+     * @route("/login", name="user_login")
      * @method("POST")
      */
     public function loginAction(Request $request)
@@ -62,7 +62,7 @@ class ApiUserController extends ApiBaseController
 
 
     /**
-     * @Route("/register")
+     * @Route("/register", name="user_registration")
      * @Method("POST")
      */
     public function postUserAction(Request $request)

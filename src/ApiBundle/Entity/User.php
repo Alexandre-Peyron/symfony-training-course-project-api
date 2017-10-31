@@ -98,7 +98,7 @@ class User implements UserInterface, EquatableInterface
      *
      * @ORM\Column(name="roles", type="array")
      */
-    protected $roles;
+    protected $roles = [];
 
 
     /**

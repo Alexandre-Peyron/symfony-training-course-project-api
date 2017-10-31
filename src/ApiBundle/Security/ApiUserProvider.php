@@ -1,12 +1,15 @@
 <?php
+
 namespace ApiBundle\Security;
 
 use ApiBundle\Entity\User;
+use ApiBundle\Entity\UserAuthToken;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\TokenNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class ApiUserProvider implements UserProviderInterface
 {
@@ -23,6 +26,24 @@ class ApiUserProvider implements UserProviderInterface
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
+    }
+
+    /**
+     * @param $authTokenHeader
+     *
+     * @return UserAuthToken
+     */
+    public function getAuthToken($authTokenHeader)
+    {
+        $token = $this->em->getRepository('ApiBundle:UserAuthToken')->findOneByValue($authTokenHeader);
+
+        if ($token) {
+            return $token;
+        }
+
+        throw new TokenNotFoundException(
+            sprintf('Token "%s" does not exist.', $authTokenHeader)
+        );
     }
 
     /**
@@ -51,13 +72,15 @@ class ApiUserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof User) {
-            throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
-            );
-        }
+//        if (!$user instanceof User) {
+//            throw new UnsupportedUserException(
+//                sprintf('Instances of "%s" are not supported.', get_class($user))
+//            );
+//        }
+//
+//        return $this->loadUserByUsername($user->getUsername());
 
-        return $this->loadUserByUsername($user->getUsername());
+        throw new UnsupportedUserException();
     }
 
     /**

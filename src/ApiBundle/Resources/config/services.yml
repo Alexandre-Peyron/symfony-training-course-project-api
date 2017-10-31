@@ -1,7 +1,13 @@
 services:
-    api.user.provider:
+    api.user_provider:
         class: ApiBundle\Security\ApiUserProvider
         arguments: ["@doctrine.orm.entity_manager"]
+        public: false
+
+    api.auth_token_authenticator:
+        class:     ApiBundle\Security\UserAuthTokenAuthenticator
+        arguments: ["@security.http_utils"]
+        public:    false
 
     api.invoice.event_listener:
         class: ApiBundle\EventListener\InvoiceListener
