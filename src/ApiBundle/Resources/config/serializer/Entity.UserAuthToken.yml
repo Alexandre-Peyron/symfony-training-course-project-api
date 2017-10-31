@@ -1,0 +1,14 @@
+ApiBundle\Entity\UserAuthToken:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: false
+        value:
+            expose: true
+            groups: [auth-token]
+        createdAt:
+            expose: true
+            groups: [auth-token]
+        user:
+            expose: true
+            groups: [auth-token]

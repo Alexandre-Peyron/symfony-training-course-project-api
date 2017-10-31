@@ -1,4 +1,8 @@
 services:
+    api.user.provider:
+        class: ApiBundle\Security\ApiUserProvider
+        arguments: ["@doctrine.orm.entity_manager"]
+
     api.invoice.event_listener:
         class: ApiBundle\EventListener\InvoiceListener
         tags:

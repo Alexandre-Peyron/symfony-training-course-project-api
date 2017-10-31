@@ -5,17 +5,19 @@ ApiBundle\Entity\User:
             expose: false
         username:
             expose: true
-            groups: [user]
+            groups: [user, auth-token]
         firstname:
             expose: true
-            groups: [user]
+            groups: [user, auth-token]
         lastname:
             expose: true
-            groups: [user]
+            groups: [user, auth-token]
         email:
             expose: true
-            groups: [user]
+            groups: [user, auth-token]
         password:
             expose: false
         plainPassword:
+            expose: false
+        token:
             expose: false
